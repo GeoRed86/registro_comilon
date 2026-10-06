@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Restaurante</title>
+</head>
+<body>
+    <h2>Iniciar Sesión</h2>
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Ingresar</button>
+    </form>
+    <hr>
+    <p>¿No tienes cuenta? <a href="{% url 'registro_cliente' %}">Registrate aqui</a></p>
+</body>
+</html>

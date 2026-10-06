@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+</head>
+<body>
+    <h1>Panel Administrador</h1>
+    <p>Sesión iniciada como: <strong>{{ request.user.username }}</strong> | <a href="{% url 'logout' %}">Cerrar Sesión</a></p>
+    
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <hr>
+    <h3>Acciones de Creación de Perfiles</h3>
+    <a href="{% url 'registro_cliente' %}">[+] Registrar Cliente / Cliente Empresa</a> | 
+    <a href="{% url 'repartidor_crear' %}">[+] Registrar Repartidor</a> | 
+    <a href="{% url 'empresa_crear' %}">[+] Registrar Empresa</a>
+    
+    {% if es_super %}
+        | <a href="{% url 'crear_admin' %}" style="font-weight: bold; color: darkblue;">[+] Crear Administrador (Solo Superuser)</a>
+    {% endif %}
+
+    <hr>
+    <h3>Listado de Empresas Activas</h3>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>RUT</th>
+                <th>Saldo Beneficio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in empresas %}
+            <tr>
+                <td>{{ emp.nombre }}</td>
+                <td>{{ emp.rut }}</td>
+                <td>${{ emp.saldo_beneficio }}</td>
+                <td>
+                    <a href="{% url 'agregar_empleado' emp.id %}">Gestionar Nómina</a> |
+                    <a href="{% url 'desactivar_empresa' emp.id %}" onclick="return confirm('¿Desactivar empresa?');">Desactivar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No hay empresas registradas.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr>
+    <h3>Listado de Cuentas y Perfiles</h3>
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>RUT</th>
+                <th>Rol</th>
+                <th>Detalles</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td>{{ u.user.username }}</td>
+                <td>{{ u.rut }}</td>
+                <td>{{ u.rol }}</td>
+                <td>
+                    {% if u.rol == 'REPARTIDOR' %}
+                        Vehículo: {{ u.tipo_vehiculo }}
+                    {% elif u.rol == 'CLIENTE' %}
+                        {% if u.tiene_beneficio %}
+                            Beneficio Empresa: {{ u.empresa.nombre }} (${{ u.monto_beneficio }})
+                        {% else %}
+                            Sin beneficio
+                        {% endif %}
+                    {% elif u.rol == 'ADMIN' %}
+                        Administrador del Sistema
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'desactivar_usuario' u.id %}" onclick="return confirm('¿Desactivar usuario?');">Desactivar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No hay usuarios.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

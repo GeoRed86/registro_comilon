@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Administrador</title>
+</head>
+<body>
+    <h2>Formulario Crear Administrador (Solo Superuser)</h2>
+    <p>Permite registrar un usuario con rol de Administrador.</p>
+
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Crear Administrador</button>
+    </form>
+    <hr>
+    <a href="{% url 'panel_admin' %}">Volver al Panel</a>
+</body>
+</html>

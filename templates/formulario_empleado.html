@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nómina de Empleados - {{ empresa.nombre }}</title>
+</head>
+<body>
+    <h2>Empresa: {{ empresa.nombre }} (RUT: {{ empresa.rut }})</h2>
+    <p>Beneficio asignado a empleados: ${{ empresa.saldo_beneficio }}</p>
+
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h3>Formulario Empleado (Add Empleado)</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Agregar Empleado a la Nómina</button>
+    </form>
+
+    <hr>
+    <h3>Nómina Actual de Empleados Autorizados</h3>
+    <ul>
+        {% for e in empleados %}
+            <li>{{ e.nombre }} — RUT: {{ e.rut }}</li>
+        {% empty %}
+            <li>No hay empleados cargados en este convenio aún.</li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <a href="{% url 'panel_admin' %}">Volver al Panel Admin</a>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Cliente / Cliente Empresa</title>
+</head>
+<body>
+    <h2>Formulario Cliente / Cliente Empresa</h2>
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li><strong>{{ message }}</strong></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrar Cliente</button>
+    </form>
+    <hr>
+    {% if desde_admin %}
+        <a href="{% url 'panel_admin' %}">Volver al Panel de Administración</a>
+    {% else %}
+        <a href="{% url 'login' %}">Volver al Login</a>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil</title>
+</head>
+<body>
+    <h2>Bienvenido, {{ request.user.first_name }} ({{ request.user.username }})</h2>
+    <p><strong>RUT:</strong> {{ perfil.rut }}</p>
+    <p><strong>Rol:</strong> {{ perfil.rol }}</p>
+
+    <h3>Estado de Beneficio Empresa</h3>
+    {% if perfil.tiene_beneficio %}
+        <p style="color: green;"><strong>¡Beneficio Activo!</strong></p>
+        <p>Empresa: {{ perfil.empresa.nombre }}</p>
+        <p>Saldo disponible: ${{ perfil.monto_beneficio }}</p>
+    {% else %}
+        <p>Cliente particular (Sin beneficio empresa asignado).</p>
+    {% endif %}
+
+    <hr>
+    <a href="{% url 'logout' %}">Cerrar Sesión</a>
+</body>
+</html>

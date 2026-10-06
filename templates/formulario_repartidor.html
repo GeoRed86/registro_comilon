@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Repartidor</title>
+</head>
+<body>
+    <h2>Formulario Repartidor</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar Repartidor</button>
+    </form>
+    <hr>
+    <a href="{% url 'panel_admin' %}">Volver al Panel Admin</a>
+</body>
+</html>
